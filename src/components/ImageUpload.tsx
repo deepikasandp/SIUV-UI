@@ -23,9 +23,9 @@ const ImageUpload: React.FC = () => {
     }
   };
 
-  const uploadImage = async (file: File, token: string) => {
-    // Get the pre-signed URL
-    const response = await fetch(`http://localhost:5000/presign-url/${token}`);
+  const uploadImage = async (file: File, token: string) => {  
+    // Get the pre-signed URL, sending content type as a query parameter
+    const response = await fetch(`http://localhost:5000/presign-url/${token}?type=${encodeURIComponent(file.type)}`);
     const { url } = await response.json();
 
     // Upload the file to S3 using the pre-signed URL
@@ -33,10 +33,16 @@ const ImageUpload: React.FC = () => {
       method: 'PUT',
       body: file,
       headers: {
-        'Content-Type': file.type, // Set the correct content type
+          'Content-Type': file.type,
       },
+    }).then(response => {
+      if (!response.ok) {
+          throw new Error(`Upload failed: ${response.status} ${response.statusText}`);
+      }
+    }).catch(err => {
+      console.error('Error uploading to S3:', err);
     });
-
+    
     console.log('File uploaded successfully to S3');
   };
 
