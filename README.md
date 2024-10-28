@@ -19,9 +19,10 @@ The project structure follows a typical React application format. Here’s an ou
 
 ```
 /src
-  /components   # React components
-  /services     # API services for fetching pre-signed URLs
-  /utils        # Utility functions
+  /components   # Reusable React components
+  /pages        # Pages with logic for ImageUpload and ImageViewer
+  /routes       # Route definitions for navigation
+  /types        # Type definitions for image metadata and other   interfaces
   /styles       # Custom styles and themes
 ```
 
